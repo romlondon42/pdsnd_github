@@ -66,19 +66,16 @@ def load_data(city, month, day):
 
 " Ask the user if he wants to see the first 5 rows of data"
 def display_data(df):
-    first_row = 5
-    count=0
+    start_row = 0
     while True:
-        if count==0:
-         display_data = str(input('Do you want to see the first 5 lines of the data, yes or no').lower())
-         count+=1
-        else:
-            display_data = str(input('Do you want to see the next 5 lines of the data, yes or no').lower())
-        if display_data == 'yes':
-            print(df.head(first_row))
-            first_row +=5 
+        display = input('Do you want to see the next 5 lines of the data? yes or no: ').lower()
+        if display == 'yes':
+            print(df.iloc[start_row:start_row + 5])
+            start_row += 5
         else:
             break
+
+
 
 """Displays statistics on the most frequent times of travel."""
 
