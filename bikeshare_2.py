@@ -7,15 +7,9 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+"""Asks user to specify a city, month, and day to analyze."""
+
 def get_filters():
-    """
-    Asks user to specify a city, month, and day to analyze.
-    Returns:
-        (str) city - name of the city to analyze
-        (str) month - name of the month to filter by, or "all" to apply no month filter
-        (str) day - name of the day of week to filter by, or "all" to apply no day filter
-    """
-# TO DO: get user input for city (chicago, new york city, washington) 
     city_choice = ['chicago', 'new york' , 'washington']
     while True:
         city = str(input('Enter a city: chicago, washington or new york').lower())
@@ -25,8 +19,6 @@ def get_filters():
         else:
             print('Please enter a different city')
 
-
-    # TO DO: get user input for month (all, january, february, ... , june)
     month_choice = ['all','january', 'february', 'march' ,'april' ,'may', 'june']
     while True:
         month = str(input('Enter a month: all, or any month from january to june').lower())
@@ -36,7 +28,6 @@ def get_filters():
         else:
             print('Please enter a valid month')
 
-    # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
     day_choice = ['all','monday', 'tuesday', 'wednesday' ,'thursday' ,'friday', 'saturday' , 'sunday']
     
     while True:
@@ -75,23 +66,20 @@ def load_data(city, month, day):
 
 " Ask the user if he wants to see the first 5 rows of data"
 def display_data(df):
-    first_row = 5
-    count=0
+    start_row = 0
     while True:
-        if count==0:
-         display_data = str(input('Do you want to see the first 5 lines of the data, yes or no').lower())
-         count+=1
-        else:
-            display_data = str(input('Do you want to see the next 5 lines of the data, yes or no').lower())
-        if display_data == 'yes':
-            print(df.head(first_row))
-            first_row +=5 
+        display = input('Do you want to see the next 5 lines of the data? yes or no: ').lower()
+        if display == 'yes':
+            print(df.iloc[start_row:start_row + 5])
+            start_row += 5
         else:
             break
 
 
+
+"""Displays statistics on the most frequent times of travel."""
+
 def time_stats(df):
-    """Displays statistics on the most frequent times of travel."""
 
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
@@ -111,22 +99,19 @@ def time_stats(df):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
+"""Displays statistics on the most popular stations and trip."""
 
 def station_stats(df):
-    """Displays statistics on the most popular stations and trip."""
 
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
-    # TO DO: display most commonly used start station
     popular_startstation = df['Start Station'].mode()[0]
     print('Most popular start Station of rental:', popular_startstation)
 
-    # TO DO: display most commonly used end station
     popular_endstation = df['End Station'].mode()[0]
     print('Most popular end Station of rental:', popular_endstation)
 
-    # TO DO: display most frequent combination of start station and end station trip
     "Create a column with Start and End Station concatenation"
     df['Trip'] = df['Start Station'] + "-->" + df['End Station']
     popular_trip = df['Trip'].mode()[0]
@@ -143,7 +128,6 @@ def trip_duration_stats(df):
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
 
-    # TO DO: display travel time statistics
     print('Maximun travel time for your choice', df['Trip Duration'].max())
     print('Mean travel time for your choice', df['Trip Duration'].mean())
     print('Minimum travel time for your choice', df['Trip Duration'].min())
@@ -158,11 +142,8 @@ def user_stats(df):
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
-    # TO DO: Display counts of user types
     user_types = df['User Type'].value_counts()
     print(user_types)
-
-    # TO DO: Display counts of gender but first check if column gender is available 
     
     if 'Gender' in df.columns:
         gender_types = df['Gender'].value_counts()
@@ -172,7 +153,6 @@ def user_stats(df):
     else:
         print('The city you selected has no data available for Gender')
 
-    # TO DO: Display earliest, most recent, and most common year of birth
     if 'Birth Year' in df.columns:
         print('Easliest user date of birth', int(df['Birth Year'].min()))
         print('Most common user date of birth', int(df['Birth Year'].mode()[0]))
